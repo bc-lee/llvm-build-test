@@ -22,22 +22,28 @@ jobs:
         with:
           xcode-version: "^${{ matrix.xcode }}"
 
+      - name: Checkout depot_tools
+        run: |
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools
+          echo "$(pwd)/depot_tools" >> $GITHUB_PATH
+
       - uses: actions/checkout@v2
         with:
           repository: bc-lee/llvm-project
           ref: feature/compiler-rt-arm64-sim
+          path: llvm
 
       - name: Build
         run: |
-          mkdir cmake-build
-          cd cmake-build
+          mkdir -p llvm/cmake-build
+          cd llvm/cmake-build
           cmake -S ../llvm -G Ninja -DLLVM_ENABLE_PROJECTS='clang;compiler-rt' -DCOMPILER_RT_ENABLE_WATCHOS=ON -DCOMPILER_RT_ENABLE_TVOS=ON
           ninja compiler-rt
 
       - name: Validate
         run: |
+          cd llvm/cmake-build
           set +e
-          cd cmake-build
           file lib/clang/15.0.0/lib/darwin/libclang_rt.iossim.a
           file lib/clang/15.0.0/lib/darwin/libclang_rt.watchossim.a
           file lib/clang/15.0.0/lib/darwin/libclang_rt.tvossim.a
