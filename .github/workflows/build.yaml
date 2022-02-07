@@ -37,7 +37,7 @@ jobs:
         run: |
           mkdir -p llvm/cmake-build
           cd llvm/cmake-build
-          cmake -S ../llvm -G Ninja -DLLVM_ENABLE_PROJECTS='clang;compiler-rt' -DCOMPILER_RT_ENABLE_WATCHOS=ON -DCOMPILER_RT_ENABLE_TVOS=ON
+          cmake -S ../llvm -G Ninja -DLLVM_ENABLE_PROJECTS='clang;compiler-rt' -DCOMPILER_RT_ENABLE_WATCHOS=ON -DCOMPILER_RT_ENABLE_TVOS=ON -DCOMPILER_RT_BUILD_SANITIZERS=OFF
           ninja compiler-rt
 
       - name: Validate
