@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: bc-lee/llvm-project
-          ref: feature/compiler-rt-arm64-sim-test
+          ref: 4c5696c5165e35ae27b0ff5d78dedb230f124134
           path: llvm
 
       - name: Build
